@@ -4,7 +4,8 @@ WORKDIR /app
 
 COPY package*.json ./
 
-RUN npm install
+RUN npm install && npm install axios cors mongoose bordy-parse morgan \
+&& npm audit fix --force
 
 COPY . .
 
