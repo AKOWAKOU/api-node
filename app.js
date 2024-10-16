@@ -2,24 +2,39 @@ const express = require('express');
 const mongoose = require('mongoose');
 const morgan = require('morgan');
 const bodyParser = require('body-parser');
+const cors = require('cors');
 const taskRoutes = require('./routes/tasks');
+
+// Create an Express application
 const app = express();
-const port = 3000
-// Middleware to log request
+//configuration on prot
+const port = 3000;
+// Enable cors at the server side. 
+const corsOption = {
+  origin: ['http://localhost:3000'],
+  credentials: true,
+  methods: ["GET", "POST", "PUT", "DELETE","PATCH"],
+}
+// Enable CORS to handle cross-origin errors
+app.use(cors(corsOption));
+
+// Middleware to log requests
 app.use(morgan('combined'));
-// Middleware
+
+// Middleware to parse incoming requests with JSON payloads
 app.use(bodyParser.json());
 app.use(express.json());
 
-// Connexion à MongoDB
-mongoose.connect('mongodb://mongo-node-api:27017/node-api')
+// Connect to MongoDB
+mongoose.connect('mongodb://node-mongo:27017/node-api')
   .then(() => console.log('Connected to MongoDB'))
   .catch((err) => console.log('Error connecting to MongoDB:', err));
 
 // Routes
+
 app.use('/tasks', taskRoutes);
 
-// Démarrage du serveur
+// Start the server
 app.listen(port, () => {
   console.log(`Server running on http://localhost:${port}/`);
 });

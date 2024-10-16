@@ -2,7 +2,7 @@ version: '3'
 services:
   mongodb:
     image: mongo:8.0
-    container_name: mongo-node-api
+    container_name: node-mongo
     ports:
       - "27018:27017"
     volumes:
@@ -17,7 +17,7 @@ services:
     ports:
       - "3002:3000"
     environment:
-      MONGO_URI: mongodb://mongo-node-api:27017/node-api
+      MONGO_URI: mongodb://node-mongo:27017/node-api
     depends_on:
       - mongodb
     networks:
