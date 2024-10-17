@@ -13,6 +13,7 @@ services:
       - api-todo  
 
   todo-api-node:
+    container_name: backend
     build: .
     ports:
       - "3002:3000"
@@ -22,6 +23,5 @@ services:
       - mongodb
     networks:
       - api-todo  
-
 networks:
   api-todo:
