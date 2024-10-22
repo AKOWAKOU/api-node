@@ -22,7 +22,8 @@ const taskSchema = new mongoose.Schema({
   assigned_to: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User', // Assurez-vous que cela référence votre modèle User
-    required: false, // Rendre ce champ facultatif
+    required: false,// Rendre ce champ facultatif
+    default: null ,
   },
 });
 

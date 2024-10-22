@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const Task = require('../models/Task');
 const User = require('../models/User');
+
 // POST /tasks - Créer une nouvelle tâche
 router.post('/', async (req, res) => {
   try {
@@ -40,7 +41,7 @@ router.put('/:id', async (req, res) => {
       return res.status(400).send('Statut invalide. Les statuts valides sont : terminé, en cours, à faire.');
     }
 
-    let assignedUser = null;
+    let assignedUser = null ;
     if (assigned_to) {
       // Vérifier si l'utilisateur existe lors de la mise à jour
       assignedUser = await User.findById(assigned_to);
@@ -65,7 +66,6 @@ router.put('/:id', async (req, res) => {
     res.status(400).send(err.message);
   }
 });
-
 
 // DELETE /tasks/:id - Supprimer une tâche
 router.delete('/:id', async (req, res) => {
@@ -122,6 +122,18 @@ router.patch('/:id/status', async (req, res) => {
   } catch (err) {
     console.error(`Error updating task status: ${err.message}`);
     res.status(400).send(err);
+  }
+});
+
+// GET /tasks/all - Afficher toutes les tâches
+router.get('/all', async (req, res) => {
+  try {
+    const tasks = await Task.find().populate('assigned_to', 'name'); // Peupler le champ assigned_to
+    res.send(tasks);
+    console.log(tasks);
+  } catch (err) {
+    console.error(`Error fetching tasks: ${err.message}`);
+    res.status(400).send(err.message);
   }
 });
 
